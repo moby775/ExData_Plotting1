@@ -1,13 +1,13 @@
 install.packages("sqldf")
 library(sqldf)
-setwd("C:/Users/Zhi Rong/Desktop/Datascience/Exploratory Data Analysis/Course Project 1")
-fileName="household_power_consumption.txt"
 
+fileName="household_power_consumption.txt"
 d <- read.csv.sql(fileName, sql = "SELECT * from file WHERE Date in ('1/2/2007', '2/2/2007')", sep = ";", header = TRUE)
 data=as.data.frame(d)
 Date_Time<-as.POSIXct(paste(data$Date, data$Time), format ="%d/%m/%Y %H:%M:%S")
 plot_data<-cbind(data,Date_Time)
 
+png("plot4.png",width=480,height=480,units = "px")
 par(mfrow = c(2, 2),mar = c(3, 3, 2, 2) + 0.1,oma= c(0,0,0,0))
 
 ylabel1 = "Global Active Power"
@@ -27,3 +27,5 @@ legend("topright", lty = 1:1, col = c("black","blue", "red"), legend = c("Sub_me
 ylabel4 = "Global_reactive_power"
 xlabel4 = "datetime"
 plot(plot_data$Date_Time,plot_data$Global_reactive_power,type = "l",ylab =ylabel4,xlab =xlabel4,cex.lab =0.7,cex.axis=0.5,mgp = c(2, 1, 0))
+
+dev.off()
